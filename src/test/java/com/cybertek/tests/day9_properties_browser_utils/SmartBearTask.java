@@ -17,13 +17,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SmartBearTask {
     WebDriver driver;
+    String url = ConfigurationReader.getProperty("smartBearUrl");
 
     @BeforeMethod
     public void setupMethod() {
         driver = WebDriverFactory.getDriver(ConfigurationReader.getProperty("browser"));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.get("http://secure.smartbearsoftware.com/samples/testcomplete12/WebOrders/login.aspx");
+        driver.get(url);
     }
 
     @Test
@@ -45,7 +46,7 @@ public class SmartBearTask {
         for (WebElement each : linksOnLanding) {
             System.out.println(each.getText());
         }
-
+        driver.close();
     }
 
     @Test
@@ -99,6 +100,8 @@ public class SmartBearTask {
         String expectedText = "New order has been successfully added.";
 
         Assert.assertEquals(actualText,expectedText);
+
+        driver.close();
     }
 
     @Test
@@ -110,9 +113,22 @@ public class SmartBearTask {
         String expectedOrderDateText = "01/05/2010";
         Assert.assertEquals(actualOrderDateText,expectedOrderDateText);
 
-        //TC#3: Smartbear software order verification
-        // 1.Open browser and login to Smartbear software
-        // 2.Click on View all orders
-        // 3.Verify Susan McLaren has order on date “01/05/2010”
+        driver.close();
+    }
+
+    @Test
+    public void verifyIfNameIsInList() {
+        SmartBearUtils.login(driver);
+        SmartBearUtils.verifyOrder(driver,"Susan Mclaren");
+
+        driver.close();
+    }
+
+    @Test
+    public void printNamesAndCitiesTest() {
+        SmartBearUtils.login(driver);
+        SmartBearUtils.printNamesAndCities(driver);
+
+        driver.close();
     }
 }
