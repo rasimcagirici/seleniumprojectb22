@@ -25,17 +25,23 @@ public class CalenderTest {
 
     @Test
     public void calenderTest() {
+
         WebElement departureCity = driver.findElement(By.cssSelector("input#travel_from"));
         departureCity.click();
         departureCity.sendKeys("jfk");
+
         Actions a = new Actions(driver);
         a.moveToElement(driver.findElement(By.xpath("//div[@class='optionDivSelected']"))).click().build().perform();
+
         WebElement arrivalCity = driver.findElement(By.cssSelector("input#travel_to"));
         arrivalCity.click();
         arrivalCity.sendKeys("los");
+
         a.moveToElement(driver.findElement(By.xpath("//div[@class='optionDivSelected']"))).click().build().perform();
+
         WebElement travelDate = driver.findElement(By.id("travel_date"));
         travelDate.click();
+
         WebElement month = driver.findElement(By.className("datepicker-switch"));
         month.click();
         List<WebElement> months = driver.findElements(By.className("month"));
@@ -45,6 +51,7 @@ public class CalenderTest {
                 break;
             }
         }
+
         List<WebElement> dates = driver.findElements(By.className("day"));
         for (int i = 0; i < dates.size(); i++) {
             if (dates.get(i).getText().equals("14")) {
@@ -52,15 +59,19 @@ public class CalenderTest {
                 break;
             }
         }
+
         WebElement dateBetween = driver.findElement(By.id("datebetween"));
         Select selectDate = new Select(dateBetween);
         selectDate.selectByVisibleText("+ - 2 Weeks");
+
         WebElement airline = driver.findElement(By.id("travel_airline"));
         Select selectAirline = new Select(airline);
         selectAirline.selectByVisibleText("Turkish Airlines");
+
         WebElement language = driver.findElement(By.id("travel_language"));
         Select selectLanguage = new Select(language);
         selectLanguage.selectByVisibleText("English");
+
         WebElement button = driver.findElement(By.xpath("//button[.='SEARCH']"));
         button.click();
     }
