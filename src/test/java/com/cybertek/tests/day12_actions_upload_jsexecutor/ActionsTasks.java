@@ -2,6 +2,7 @@ package com.cybertek.tests.day12_actions_upload_jsexecutor;
 
 import com.cybertek.utilities.BrowserUtils;
 import com.cybertek.utilities.Driver;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -54,12 +55,27 @@ public class ActionsTasks {
 
     @Test
     public void dragAndDropTest() {
-        /*
-        TC #16: Hover Test1.Go to https://demos.telerik.com/kendo-ui/dragdrop/index
-        2.Drag and drop the small circle to bigger circle.
-        3.Assert: -Text in big circle changedto: “You did great!”
-         */
+
         Driver.getDriver().get("https://demos.telerik.com/kendo-ui/dragdrop/index");
+        WebElement draggable = Driver.getDriver().findElement(By.cssSelector("div#draggable"));
+        WebElement droppable = Driver.getDriver().findElement(By.cssSelector("div#droptarget"));
+
+        Actions actions = new Actions(Driver.getDriver());
+        actions.sendKeys(Keys.PAGE_DOWN);
+        actions.dragAndDrop(draggable,droppable).perform();
+        Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//div[.='You did great!']")).isDisplayed());
+
+    }
+
+    @Test
+    public void contextClick() {
+
+        Driver.getDriver().get("https://the-internet.herokuapp.com/context_menu");
+        WebElement box = Driver.getDriver().findElement(By.cssSelector("div#hot-spot"));
+        Actions actions = new Actions(Driver.getDriver());
+        actions.moveToElement(box).contextClick().perform();
+        Alert alert = Driver.getDriver().switchTo().alert();
+        alert.accept();
 
     }
 
